@@ -63,8 +63,6 @@ app.post('/api/expense', async (req, res) => {
   }
 });
 
-<<<<<<< Updated upstream
-=======
 // Auth Endpoints
 app.post('/api/register', async (req, res) => {
     const { username, email, password } = req.body;
@@ -119,7 +117,6 @@ app.post('/api/chatbot', async (req, res) => {
   }
 });
 
->>>>>>> Stashed changes
 // Seeder Function
 async function seedDatabase() {
     // ... (Seeder function is unchanged)
