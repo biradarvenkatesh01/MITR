@@ -5,35 +5,32 @@ const mongoose = require('mongoose');
 const app = express();
 const PORT = 3000;
 
+const dbURI = 'mongodb+srv://finsight:projfin123@finsight-cluster.3qsmiss.mongodb.net/?retryWrites=true&w=majority&appName=finsight-cluster'; 
 
-const dbURI = 'mongodb+srv://finsight:projfin123@finsight-cluster.3qsmiss.mongodb.net/?retryWrites=true&w=majority&appName=finsight-cluster';
-
-
+// Middleware
 app.use(cors());
+app.use(express.json()); // <-- New: Middleware to parse JSON bodies
 
-// --- Database Connection ---
+// Database Connection
 mongoose.connect(dbURI)
   .then(() => {
     console.log('MongoDB Connected...');
-    // Start the server only after the database is connected
-    app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
-    });
-    seedDatabase(); // Optional: Add initial data if the DB is empty
+    app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
+    seedDatabase();
   })
   .catch(err => console.log(err));
 
-// --- Data Structure (Schema) ---
+// Data Structure (Schema) & Model
 const budgetSchema = new mongoose.Schema({
   department: String,
   allocated: Number,
   spent: Number
 });
-
-// --- Data Model ---
 const Budget = mongoose.model('Budget', budgetSchema);
 
-// --- API Endpoint ---
+// --- API Endpoints ---
+
+// GET all budget data
 app.get('/api/budget', async (req, res) => {
   try {
     const budgetData = await Budget.find();
@@ -43,7 +40,27 @@ app.get('/api/budget', async (req, res) => {
   }
 });
 
-// --- Function to add initial data (a seeder) ---
+// POST a new expense
+app.post('/api/expense', async (req, res) => {
+  const { department, amount } = req.body;
+
+  try {
+    const departmentToUpdate = await Budget.findOne({ department: department });
+    if (!departmentToUpdate) {
+      return res.status(404).json({ message: 'Department not found' });
+    }
+    
+    departmentToUpdate.spent += amount; // Add the new expense to the spent amount
+    await departmentToUpdate.save();
+    
+    res.json(departmentToUpdate);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+// Seeder Function
 async function seedDatabase() {
   try {
     const count = await Budget.countDocuments();
