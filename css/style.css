@@ -293,3 +293,50 @@ input:checked + .slider:before {
   border-radius: 20px;
   cursor: pointer;
 }
+
+/* Welcome Page Styling */
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+}
+
+.welcome-container h1 {
+    font-size: 3.5rem;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.welcome-container p {
+    font-size: 1.2rem;
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+.welcome-links .btn {
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 0 10px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.welcome-links .btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.welcome-links .btn-secondary {
+    background-color: #6c757d;
+}
+
+.welcome-links .btn-secondary:hover {
+    background-color: #5a6268;
+}
