@@ -84,8 +84,12 @@ function populateDepartmentDropdown(data) {
 }
 
 function createDoughnutChart(data) {
-    const ctx = document.getElementById('budgetChart').getContext('d');
-    if (window.myBudgetChart) window.myBudgetChart.destroy();
+    const ctx = document.getElementById('budgetChart').getContext('2d');
+    
+    if (window.myBudgetChart) {
+        window.myBudgetChart.destroy();
+    }
+    
     const chartData = {
         labels: data.map(item => item.department),
         datasets: [{
@@ -95,9 +99,17 @@ function createDoughnutChart(data) {
             hoverOffset: 4
         }]
     };
+
     window.myBudgetChart = new Chart(ctx, {
-        type: 'doughnut', data: chartData,
-        options: { responsive: true, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Total Allocated Budget' } } }
+        type: 'doughnut',
+        data: chartData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: true, text: 'Total Allocated Budget' }
+            }
+        }
     });
 }
 
