@@ -128,3 +128,44 @@ function createBarChart(data) {
         options: { responsive: true, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Allocated vs. Spent' } }, scales: { y: { beginAtZero: true } } }
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const chatForm = document.getElementById('chat-form');
+  const chatInput = document.getElementById('chat-input');
+  const chatBody = document.getElementById('chat-body');
+
+  chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const message = chatInput.value.trim();
+
+    if (message) {
+      // Display user's message
+      addMessage(message, 'user-message');
+      chatInput.value = '';
+
+      try {
+        // Send message to the backend
+        const response = await fetch('http://localhost:3000/api/chatbot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message }),
+        });
+
+        const data = await response.json();
+
+        // Display bot's reply
+        addMessage(data.reply, 'bot-message');
+      } catch (error) {
+        addMessage('Sorry, something went wrong.', 'bot-message');
+      }
+    }
+  });
+
+  function addMessage(text, className) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('chat-message', className);
+    messageElement.textContent = text;
+    chatBody.appendChild(messageElement);
+    chatBody.scrollTop = chatBody.scrollHeight; // Scroll to the bottom
+  }
+});

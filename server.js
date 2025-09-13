@@ -4,6 +4,14 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+// Configure the Gemini AI
+const genAI = new GoogleGenerativeAI("AIzaSyBVgCTwd8TdQsFLrzywIG8dVVtunH4Sn8I");
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+
 const app = express();
 const PORT = 3000;
 
@@ -122,8 +130,6 @@ app.get('/api/budgets/:budgetId/comments', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-// --- Search Endpoint ---
 app.get('/api/transactions/search', async (req, res) => {
   const { q } = req.query;
   try {
@@ -140,7 +146,7 @@ app.get('/api/transactions/search', async (req, res) => {
 });
 
 
-// --- Auth Endpoints ---
+
 app.post('/api/register', async (req, res) => {
     const { username, email, password } = req.body;
     try {
@@ -177,9 +183,24 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+// --- Chatbot Endpoint (with AI) ---
+app.post('/api/chatbot', async (req, res) => {
+  const { message } = req.body;
 
+  try {
+    // Send the message to the Gemini model
+    const result = await model.generateContent(message);
+    const response = await result.response;
+    const text = response.text();
 
-// Replace your existing seedDatabase function with this one
+    // Send the AI's reply back to the frontend
+    res.json({ reply: text });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error processing your message with AI.' });
+  }
+});
+
 
 async function seedDatabase() {
     try {
