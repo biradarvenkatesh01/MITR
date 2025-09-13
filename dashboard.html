@@ -37,35 +37,18 @@
                     <th>Funds Remaining</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Academics & Curriculum</td>
-                    <td>₹15,00,00,000</td>
-                    <td>₹4,00,00,000</td>
-                    <td>₹11,00,00,000</td>
-                </tr>
-                <tr>
-                    <td>Infrastructure & Maintenance</td>
-                    <td>₹20,00,00,000</td>
-                    <td>₹5,50,00,000</td>
-                    <td>₹14,50,00,000</td>
-                </tr>
-                <tr>
-                    <td>Student Affairs & Events</td>
-                    <td>₹5,00,00,000</td>
-                    <td>₹1,00,00,000</td>
-                    <td>₹4,00,00,000</td>
-                </tr>
-                 <tr>
-                    <td>Research & Development</td>
-                    <td>₹10,00,00,000</td>
-                    <td>₹2,00,00,000</td>
-                    <td>₹8,00,00,000</td>
-                </tr>
-            </tbody>
+            <tbody id="budget-table-body">
+    </tbody>
         </table>
     </div>
 </main>
+<section class="chart-section">
+    <div class="container">
+        <div class="chart-container">
+            <canvas id="budgetChart"></canvas>
+        </div>
+    </div>
+</section>
 <footer class="footer">
     <div class="container">
         <p>&copy; 2025 FinSight. All Rights Reserved.</p>
@@ -76,5 +59,8 @@
         </div>
     </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/main.js"></script>
+</body>
 </body>
 </html>

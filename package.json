@@ -1,0 +1,25 @@
+{
+  "name": "mitr",
+  "version": "1.0.0",
+  "description": "BitNBuild Hackathon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/biradarvenkatesh01/MITR.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/biradarvenkatesh01/MITR/issues"
+  },
+  "homepage": "https://github.com/biradarvenkatesh01/MITR#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}
