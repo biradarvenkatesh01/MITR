@@ -3,60 +3,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('register-form');
 
     if (loginForm) {
-        loginForm.addEventListener('submit', handleLogin);
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const res = await fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await res.json();
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                window.location.href = 'dashboard.html';
+            } else {
+                alert(data.message);
+            }
+        });
     }
+
     if (registerForm) {
-        registerForm.addEventListener('submit', handleRegister);
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const res = await fetch('http://localhost:3000/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
+            });
+
+            const data = await res.json();
+            alert(data.message);
+            if (res.ok) {
+                window.location.href = 'login.html';
+            }
+        });
     }
 });
 
-async function handleRegister(event) {
-    event.preventDefault();
-    const form = event.target;
-    const username = form.elements.username.value;
-    const email = form.elements.email.value;
-    const password = form.elements.password.value;
-
-    try {
-        const response = await fetch('http://localhost:3000/api/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password }),
-        });
-        const result = await response.json();
-        if (response.ok) {
-            alert('Registration successful! Please log in.');
-            window.location.href = 'login.html';
-        } else {
-            alert(`Error: ${result.message}`);
-        }
-    } catch (error) {
-        alert('Registration failed. Please try again.');
-    }
-}
-
-async function handleLogin(event) {
-    event.preventDefault();
-    const form = event.target;
-    const email = form.elements.email.value;
-    const password = form.elements.password.value;
-
-    try {
-        const response = await fetch('http://localhost:3000/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-        });
-        const result = await response.json();
-        if (response.ok) {
-            // --- NEW: Save the token ---
-            localStorage.setItem('token', result.token);
-            alert('Login successful!');
-            window.location.href = 'dashboard.html';
-        } else {
-            alert(`Error: ${result.message}`);
-        }
-    } catch (error) {
-        alert('Login failed. Please try again.');
-    }
+function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'login.html';
 }
