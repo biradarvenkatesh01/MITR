@@ -275,3 +275,9 @@ body {
     padding: 12px;
     font-size: 1rem;
 }
+/* Styling for the two-chart grid */
+.charts-grid {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}

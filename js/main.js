@@ -12,7 +12,8 @@ async function fetchBudgetData() {
         
         populateTable(data);
         populateDepartmentDropdown(data);
-        createChart(data);
+        createDoughnutChart(data);
+        createBarChart(data);
 
     } catch (error) {
         console.error('Error fetching budget data:', error);
@@ -74,11 +75,9 @@ async function handleAddExpense(event) {
     }
 }
 
-function createChart(data) {
+function createDoughnutChart(data) {
     const ctx = document.getElementById('budgetChart').getContext('2d');
     
-    // This is a check to see if a chart already exists, and if so, destroy it before creating a new one.
-    // This prevents charts from drawing over each other when we update the data.
     if (window.myBudgetChart) {
         window.myBudgetChart.destroy();
     }
@@ -86,21 +85,66 @@ function createChart(data) {
     const chartData = {
         labels: data.map(item => item.department),
         datasets: [{
-            label: 'Budget Allocation',
+            label: 'Total Allocated Budget',
             data: data.map(item => item.allocated),
             backgroundColor: ['#3498db', '#2ecc71', '#e74c3c', '#f1c40f'],
             hoverOffset: 4
         }]
     };
 
-    window.myBudgetChart = new Chart(ctx, { // Store chart instance in a global variable
+    window.myBudgetChart = new Chart(ctx, {
         type: 'doughnut',
         data: chartData,
         options: {
             responsive: true,
             plugins: {
                 legend: { position: 'top' },
-                title: { display: true, text: 'Budget Allocation by Department' }
+                title: { display: true, text: 'Total Allocated Budget' }
+            }
+        }
+    });
+}
+
+function createBarChart(data) {
+    const ctx = document.getElementById('barChart').getContext('2d');
+
+    if (window.myBarChart) {
+        window.myBarChart.destroy();
+    }
+
+    const chartData = {
+        labels: data.map(item => item.department),
+        datasets: [
+            {
+                label: 'Allocated Budget',
+                data: data.map(item => item.allocated),
+                backgroundColor: 'rgba(52, 152, 219, 0.5)', // Blue
+                borderColor: '#3498db',
+                borderWidth: 1
+            },
+            {
+                label: 'Amount Spent',
+                data: data.map(item => item.spent),
+                backgroundColor: 'rgba(46, 204, 113, 0.5)', // Green
+                borderColor: '#2ecc71',
+                borderWidth: 1
+            }
+        ]
+    };
+
+    window.myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: true, text: 'Allocated vs. Spent' }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
         }
     });
