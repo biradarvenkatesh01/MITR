@@ -6,7 +6,7 @@ const path = require('path'); // Import the 'path' module
 const app = express();
 const PORT = 3000;
 
-const dbURI = 'YOUR_CONNECTION_STRING_HERE'; // Make sure your connection string is here
+const dbURI = 'mongodb+srv://finsight:projfin123@finsight-cluster.3qsmiss.mongodb.net/?retryWrites=true&w=majority&appName=finsight-cluster'; // Make sure your connection string is here
 
 // Middleware
 app.use(cors());
