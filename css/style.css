@@ -6,17 +6,19 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
     color: #333;
+    line-height: 1.6;
 }
 
+
+
 .container {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: auto;
     overflow: auto;
-    padding: 0 20px;
+    padding: 20px;
 }
 
 /* Navbar Styling */
@@ -322,4 +324,115 @@ body {
     padding: 12px;
     font-size: 1rem;
     margin-top: 10px;
+}
+/* Add these styles to your style.css */
+.header {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    color: #007bff;
+}
+
+.header button {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+/* Add these styles to your style.css */
+.search-container {
+    margin-bottom: 20px;
+}
+
+#searchInput {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#searchButton {
+    padding: 10px 15px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/* Add this to css/style.css */
+.budget-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+/* Add these styles to your style.css */
+.budget-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.budget-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.budget-card h3 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+.budget-card p {
+    margin: 10px 0;
+}
+
+.progress-bar {
+    background-color: #e9ecef;
+    border-radius: 5px;
+    height: 20px;
+    width: 100%;
+}
+
+.progress {
+    background-color: #28a745;
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.5s ease-in-out;
+}
+
+.progress.over-budget {
+    background-color: #dc3545; /* Red for over-budget items */
+}
+/* Add these styles to style.css */
+.search-results {
+  margin-top: 20px;
+}
+
+.result-item {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 10px;
+}
+
+.result-item h3 {
+  margin-top: 0;
 }

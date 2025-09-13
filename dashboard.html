@@ -7,7 +7,16 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-
+<div class="header">
+  <h1>Welcome to Your Dashboard</h1>
+  <button onclick="logout()">Logout</button>
+</div>
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search by department or vendor...">
+    <button id="searchButton">Search</button>
+</div>
+<div id="searchResults" class="search-results">
+  </div>
     <nav class="navbar">
         <div class="container">
             <a href="#" class="navbar-brand">FinSight</a>
@@ -19,6 +28,7 @@
             </ul>
         </div>
     </nav>
+    
 <section class="dashboard-header">
     <div class="container">
         <h1 class="dashboard-title">Financial Dashboard</h1>
@@ -43,7 +53,7 @@
                 </tbody>
         </table>
     </div>
-
+<!-- <div id="budget-container"></div> -->
     <div class="form-container">
         <h3>Log a New Expense</h3>
         <form id="expense-form">
@@ -64,6 +74,8 @@
         </form>
     </div>
 </div>
+    </div>
+    <div id="budget-container" class="budget-container">
     </div>
 </main>
 <section class="chart-section">
