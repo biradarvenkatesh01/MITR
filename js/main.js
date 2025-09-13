@@ -1,54 +1,42 @@
+// --- NEW: Immediately check for token ---
+const token = localStorage.getItem('token');
+if (!token) {
+    window.location.href = 'login.html'; // If no token, redirect to login page
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     fetchBudgetData();
-
     const expenseForm = document.getElementById('expense-form');
     expenseForm.addEventListener('submit', handleAddExpense);
 });
 
 async function fetchBudgetData() {
     try {
-        const response = await fetch('http://localhost:3000/api/budget');
+        const response = await fetch('http://localhost:3000/api/budget', {
+            // --- NEW: Send the token with the request ---
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            // If token is invalid, redirect to login
+            window.location.href = 'login.html';
+            return;
+        }
+
         const data = await response.json();
-        
         populateTable(data);
         populateDepartmentDropdown(data);
         createDoughnutChart(data);
         createBarChart(data);
-
     } catch (error) {
         console.error('Error fetching budget data:', error);
     }
 }
 
-function populateTable(data) {
-    const tableBody = document.getElementById('budget-table-body');
-    tableBody.innerHTML = ''; 
-
-    data.forEach(item => {
-        const remaining = item.allocated - item.spent;
-        const row = `<tr>
-            <td>${item.department}</td>
-            <td>₹${item.allocated.toLocaleString('en-IN')}</td>
-            <td>₹${item.spent.toLocaleString('en-IN')}</td>
-            <td>₹${remaining.toLocaleString('en-IN')}</td>
-        </tr>`;
-        tableBody.innerHTML += row;
-    });
-}
-
-function populateDepartmentDropdown(data) {
-    const departmentSelect = document.getElementById('department');
-    departmentSelect.innerHTML = '<option value="">Select a Department</option>';
-
-    data.forEach(item => {
-        const option = `<option value="${item.department}">${item.department}</option>`;
-        departmentSelect.innerHTML += option;
-    });
-}
+// ... (The rest of the functions: populateTable, populateDepartmentDropdown, handleAddExpense, createDoughnutChart, createBarChart remain the same) ...
 
 async function handleAddExpense(event) {
     event.preventDefault(); 
-
     const form = event.target;
     const department = form.elements.department.value;
     const amount = Number(form.elements.amount.value);
@@ -57,22 +45,42 @@ async function handleAddExpense(event) {
         alert('Please fill out all fields.');
         return;
     }
-
     try {
         await fetch('http://localhost:3000/api/expense', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                 // --- NEW: Send the token with the request ---
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ department, amount }),
         });
         
         form.reset();
-        fetchBudgetData(); // Re-fetch data to update the UI
+        fetchBudgetData(); 
 
     } catch (error) {
         console.error('Error adding expense:', error);
     }
+}
+
+function populateTable(data) {
+    const tableBody = document.getElementById('budget-table-body');
+    tableBody.innerHTML = ''; 
+    data.forEach(item => {
+        const remaining = item.allocated - item.spent;
+        const row = `<tr><td>${item.department}</td><td>₹${item.allocated.toLocaleString('en-IN')}</td><td>₹${item.spent.toLocaleString('en-IN')}</td><td>₹${remaining.toLocaleString('en-IN')}</td></tr>`;
+        tableBody.innerHTML += row;
+    });
+}
+
+function populateDepartmentDropdown(data) {
+    const departmentSelect = document.getElementById('department');
+    departmentSelect.innerHTML = '<option value="">Select a Department</option>';
+    data.forEach(item => {
+        const option = `<option value="${item.department}">${item.department}</option>`;
+        departmentSelect.innerHTML += option;
+    });
 }
 
 function createDoughnutChart(data) {
@@ -107,46 +115,17 @@ function createDoughnutChart(data) {
 
 function createBarChart(data) {
     const ctx = document.getElementById('barChart').getContext('2d');
-
-    if (window.myBarChart) {
-        window.myBarChart.destroy();
-    }
-
+    if (window.myBarChart) window.myBarChart.destroy();
     const chartData = {
         labels: data.map(item => item.department),
         datasets: [
-            {
-                label: 'Allocated Budget',
-                data: data.map(item => item.allocated),
-                backgroundColor: 'rgba(52, 152, 219, 0.5)', // Blue
-                borderColor: '#3498db',
-                borderWidth: 1
-            },
-            {
-                label: 'Amount Spent',
-                data: data.map(item => item.spent),
-                backgroundColor: 'rgba(46, 204, 113, 0.5)', // Green
-                borderColor: '#2ecc71',
-                borderWidth: 1
-            }
+            { label: 'Allocated Budget', data: data.map(item => item.allocated), backgroundColor: 'rgba(52, 152, 219, 0.5)', borderColor: '#3498db', borderWidth: 1 },
+            { label: 'Amount Spent', data: data.map(item => item.spent), backgroundColor: 'rgba(46, 204, 113, 0.5)', borderColor: '#2ecc71', borderWidth: 1 }
         ]
     };
-
     window.myBarChart = new Chart(ctx, {
-        type: 'bar',
-        data: chartData,
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'top' },
-                title: { display: true, text: 'Allocated vs. Spent' }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
+        type: 'bar', data: chartData,
+        options: { responsive: true, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Allocated vs. Spent' } }, scales: { y: { beginAtZero: true } } }
     });
 }
 
