@@ -170,6 +170,7 @@ function createDoughnutChart(data) {
 }
 
 function createBarChart(data) {
+
   const ctx = document.getElementById("barChart").getContext("2d");
   if (window.myBarChart) window.myBarChart.destroy();
   const chartData = {
@@ -237,3 +238,59 @@ function displayBudgetData(budgetData) {
 
 // Make sure to call fetchBudgetData when the page loads
 document.addEventListener("DOMContentLoaded", fetchBudgetData);
+
+    const ctx = document.getElementById('barChart').getContext('2d');
+    if (window.myBarChart) window.myBarChart.destroy();
+    const chartData = {
+        labels: data.map(item => item.department),
+        datasets: [
+            { label: 'Allocated Budget', data: data.map(item => item.allocated), backgroundColor: 'rgba(52, 152, 219, 0.5)', borderColor: '#3498db', borderWidth: 1 },
+            { label: 'Amount Spent', data: data.map(item => item.spent), backgroundColor: 'rgba(46, 204, 113, 0.5)', borderColor: '#2ecc71', borderWidth: 1 }
+        ]
+    };
+    window.myBarChart = new Chart(ctx, {
+        type: 'bar', data: chartData,
+        options: { responsive: true, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Allocated vs. Spent' } }, scales: { y: { beginAtZero: true } } }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const chatForm = document.getElementById('chat-form');
+  const chatInput = document.getElementById('chat-input');
+  const chatBody = document.getElementById('chat-body');
+
+  chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const message = chatInput.value.trim();
+
+    if (message) {
+      // Display user's message
+      addMessage(message, 'user-message');
+      chatInput.value = '';
+
+      try {
+        // Send message to the backend
+        const response = await fetch('http://localhost:3000/api/chatbot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message }),
+        });
+
+        const data = await response.json();
+
+        // Display bot's reply
+        addMessage(data.reply, 'bot-message');
+      } catch (error) {
+        addMessage('Sorry, something went wrong.', 'bot-message');
+      }
+    }
+  });
+
+  function addMessage(text, className) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('chat-message', className);
+    messageElement.textContent = text;
+    chatBody.appendChild(messageElement);
+    chatBody.scrollTop = chatBody.scrollHeight; // Scroll to the bottom
+  }
+});
