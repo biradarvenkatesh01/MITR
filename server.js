@@ -11,6 +11,9 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const genAI = new GoogleGenerativeAI("AIzaSyBVgCTwd8TdQsFLrzywIG8dVVtunH4Sn8I");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
