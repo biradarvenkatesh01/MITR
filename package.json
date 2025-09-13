@@ -19,6 +19,11 @@
   },
   "homepage": "https://github.com/biradarvenkatesh01/MITR#readme",
   "dependencies": {
+<<<<<<< Updated upstream
+=======
+    "@google/generative-ai": "^0.24.1",
+    "bcryptjs": "^3.0.2",
+>>>>>>> Stashed changes
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "mongoose": "^8.18.1"

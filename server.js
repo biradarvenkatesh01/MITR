@@ -1,6 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+<<<<<<< Updated upstream
+=======
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+// Configure the Gemini AI
+const genAI = new GoogleGenerativeAI("AIzaSyBVgCTwd8TdQsFLrzywIG8dVVtunH4Sn8I");
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+>>>>>>> Stashed changes
 
 const app = express();
 const PORT = 3000;
@@ -53,6 +63,63 @@ app.post('/api/expense', async (req, res) => {
   }
 });
 
+<<<<<<< Updated upstream
+=======
+// Auth Endpoints
+app.post('/api/register', async (req, res) => {
+    const { username, email, password } = req.body;
+    try {
+        let user = await User.findOne({ email });
+        if (user) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        user = new User({ username, email, password: hashedPassword });
+        await user.save();
+        res.status(201).json({ message: 'User registered successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+app.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }
+        const payload = { user: { id: user.id } };
+        const token = jwt.sign(payload, 'your_jwt_secret_key', { expiresIn: '1h' });
+        res.json({ token });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+// --- Chatbot Endpoint (with AI) ---
+app.post('/api/chatbot', async (req, res) => {
+  const { message } = req.body;
+
+  try {
+    // Send the message to the Gemini model
+    const result = await model.generateContent(message);
+    const response = await result.response;
+    const text = response.text();
+
+    // Send the AI's reply back to the frontend
+    res.json({ reply: text });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error processing your message with AI.' });
+  }
+});
+
+>>>>>>> Stashed changes
 // Seeder Function
 async function seedDatabase() {
     // ... (Seeder function is unchanged)
