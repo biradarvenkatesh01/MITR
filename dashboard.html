@@ -5,31 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - MITR</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="header">
-      <h1>Welcome to Your Dashboard</h1>
-        <div class="currency-toggle">
-            <span>INR</span>
-            <label class="switch">
-                <input type="checkbox" id="currency-toggle-checkbox">
-                <span class="slider round"></span>
-            </label>
-            <span>USD</span>
+    <header class="header">
+        <h1>MITR Dashboard</h1>
+        <div class="header-controls">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search by department/vendor...">
+                <button id="searchButton">🔎</button>
+            </div>
+            <div class="currency-toggle">
+                <span>INR</span>
+                <label class="switch">
+                    <input type="checkbox" id="currency-toggle-checkbox">
+                    <span class="slider round"></span>
+                </label>
+                <span>USD</span>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
-      <button onclick="logout()">Logout</button>
-    </div>
+    </header>
 
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search by department or vendor...">
-        <button id="searchButton">Search</button>
-    </div>
+    <main class="container">
+        <section class="anomalies-section" id="anomalies-container">
+            </section>
 
-    <div class="container" id="budget-container">
-        </div>
+        <section class="charts-section">
+            <div class="chart-container">
+                <h3>Spending vs. Allocated (Pie Chart)</h3>
+                <canvas id="budgetPieChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Department Spending (Bar Chart)</h3>
+                <canvas id="budgetBarChart"></canvas>
+            </div>
+        </section>
 
-    <button class="chat-toggle-button" id="chat-toggle-button">💬</button>
+        <section class="budget-list-section">
+            <h2>Budget Details</h2>
+            <div id="budget-list-container">
+                </div>
+        </section>
+    </main>
 
+    <button class="chat-toggle-button" id="chat-toggle-button">🤖</button>
     <div class="chat-widget" id="chat-widget">
       <div class="chat-header">
         <h3>AI Assistant</h3>
@@ -37,7 +57,7 @@
       </div>
       <div class="chat-body" id="chat-body">
         <div class="chat-message bot-message">
-          <p>Hello! How can I help you with your budget today?</p>
+          <p>Hello! Ask me about your budget, like "Where did the sports budget go?"</p>
         </div>
       </div>
       <div class="chat-footer">
