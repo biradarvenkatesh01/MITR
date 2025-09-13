@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", fetchBudgetData);
         type: 'bar', data: chartData,
         options: { responsive: true, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Allocated vs. Spent' } }, scales: { y: { beginAtZero: true } } }
     });
-}
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const chatForm = document.getElementById('chat-form');
