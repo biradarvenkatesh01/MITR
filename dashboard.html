@@ -67,6 +67,27 @@
         </form>
       </div>
     </div>
+</section>
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2025 FinSight. All Rights Reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a> | 
+            <a href="#">Terms of Service</a> | 
+            <a href="#">Contact Us</a>
+        </div>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/main.js"></script>
+<script>
+  function logout() {
+    // Remove the token from localStorage
+    localStorage.removeItem('token');
+    // Redirect to the login page
+    window.location.href = 'login.html';
+  }
+</script>
 
     <script src="js/auth.js"></script>
     <script src="js/main.js"></script>

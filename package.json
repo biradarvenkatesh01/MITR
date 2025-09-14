@@ -4,6 +4,10 @@
   "description": "BitNBuild Hackathon",
   "main": "server.js",
   "scripts": {
+
+    "start":"node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+=======
     "start": "node server.js"
   },
   "dependencies": {
