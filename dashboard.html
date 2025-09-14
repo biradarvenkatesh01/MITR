@@ -3,107 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinSight - Financial Transparency</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Dashboard - MITR</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<div class="header">
-  <h1>Welcome to Your Dashboard</h1>
-  <button onclick="logout()">Logout</button>
-</div>
-<div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search by department or vendor...">
-    <button id="searchButton">Search</button>
-</div>
-<div id="searchResults" class="search-results">
-  </div>
-    <nav class="navbar">
-        <div class="container">
-            <a href="#" class="navbar-brand">FinSight</a>
-            <ul class="navbar-nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="login.html" class="btn">Login</a></li>
-            </ul>
+    <header class="header">
+        <h1>MITR Dashboard</h1>
+        <div class="header-controls">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search by department/vendor...">
+                <button id="searchButton">🔎</button>
+            </div>
+            <div class="currency-toggle">
+                <span>INR</span>
+                <label class="switch">
+                    <input type="checkbox" id="currency-toggle-checkbox">
+                    <span class="slider round"></span>
+                </label>
+                <span>USD</span>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
-    </nav>
-    
-<section class="dashboard-header">
-    <div class="container">
-        <h1 class="dashboard-title">Financial Dashboard</h1>
-        <p>An overview of the institution's budget and spending.</p>
-    </div>
-</section>
-<main class="dashboard-content">
-    <div class="container">
-        <h2>Department-wise Budget Allocation</h2>
-<div class="dashboard-main-content">
-    <div class="table-container">
-        <table class="summary-table">
-            <thead>
-                <tr>
-                    <th>Department</th>
-                    <th>Allocated Budget</th>
-                    <th>Amount Spent</th>
-                    <th>Funds Remaining</th>
-                </tr>
-            </thead>
-            <tbody id="budget-table-body">
-                </tbody>
-        </table>
-    </div>
-<!-- <div id="budget-container"></div> -->
-    <div class="form-container">
-        <h3>Log a New Expense</h3>
-        <form id="expense-form">
-            <div class="form-group">
-                <label for="department">Department</label>
-                <select id="department" name="department" required>
-                    </select>
+    </header>
+
+    <main class="container">
+        <section class="anomalies-section" id="anomalies-container">
+            </section>
+
+        <section class="charts-section">
+            <div class="chart-container">
+                <h3>Spending vs. Allocated (Pie Chart)</h3>
+                <canvas id="budgetPieChart"></canvas>
             </div>
-            <div class="form-group">
-                <label for="amount">Amount (₹)</label>
-                <input type="number" id="amount" name="amount" placeholder="e.g., 50000" required>
+            <div class="chart-container">
+                <h3>Department Spending (Bar Chart)</h3>
+                <canvas id="budgetBarChart"></canvas>
             </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <input type="text" id="description" name="description" placeholder="e.g., New Textbooks" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Expense</button>
+        </section>
+
+        <section class="budget-list-section">
+            <h2>Budget Details</h2>
+            <div id="budget-list-container">
+                </div>
+        </section>
+    </main>
+
+    <button class="chat-toggle-button" id="chat-toggle-button">🤖</button>
+    <div class="chat-widget" id="chat-widget">
+      <div class="chat-header">
+        <h3>AI Assistant</h3>
+        <button class="chat-close-button" id="chat-close-button">&times;</button>
+      </div>
+      <div class="chat-body" id="chat-body">
+        <div class="chat-message bot-message">
+          <p>Hello! Ask me about your budget, like "Where did the sports budget go?"</p>
+        </div>
+      </div>
+      <div class="chat-footer">
+        <form id="chat-form">
+          <input type="text" id="chat-input" placeholder="Ask something..." autocomplete="off" required>
+          <button type="submit">Send</button>
         </form>
-    </div>
-</div>
-    </div>
-
-    <div id="budget-container" class="budget-container">
-    </div>
-
-    <div class="chat-widget">
-  <div class="chat-header">
-    <h3>AI Assistant</h3>
-  </div>
-  <div class="chat-body" id="chat-body">
-    </div>
-  <div class="chat-footer">
-    <form id="chat-form">
-      <input type="text" id="chat-input" placeholder="Ask something..." autocomplete="off">
-      <button type="submit">Send</button>
-    </form>
-  </div>
-</div>
-
-</main>
-<section class="chart-section">
-    <div class="container">
-        <div class="charts-grid">
-            <div class="chart-container">
-                <canvas id="budgetChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="barChart"></canvas>
-            </div>
-        </div>
+      </div>
     </div>
 </section>
 <footer class="footer">
@@ -126,5 +88,8 @@
     window.location.href = 'login.html';
   }
 </script>
+
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
