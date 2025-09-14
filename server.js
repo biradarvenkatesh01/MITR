@@ -140,6 +140,7 @@ app.post('/api/chatbot', async (req, res) => {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro"});
     const prompt = `Context: You are a helpful budget assistant. Based on the following budget data, answer the user's question. Budget Data: ${JSON.stringify(context)}. Question: "${message}"`;
+    
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
@@ -173,7 +174,7 @@ async function seedDatabase() {
             { department: 'HR', allocated: 30000, spent: 10000, vendor: 'Workday' },
             { department: 'Sports', allocated: 15000, spent: 18000, vendor: 'Nike' } // Overspent for anomaly
         ];
-        const insertedBudgets = await Budget.insertMany(sampleBudgets);
+        await Budget.insertMany(sampleBudgets);
         console.log('Database seeded with sample budgets.');
     } catch (err) {
         console.error('Error seeding database:', err.message);

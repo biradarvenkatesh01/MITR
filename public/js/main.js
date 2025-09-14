@@ -64,7 +64,6 @@ async function fetchAnomalies() {
     }
 }
 
-
 function displayBudgetData(data) {
     const budgetContainer = document.getElementById('budget-list-container');
     budgetContainer.innerHTML = '';
