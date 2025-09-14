@@ -436,13 +436,13 @@ body {
 
 .result-item h3 {
   margin-top: 0;
-
+}
 /* Chat Widget Styles */
 .chat-widget {
-  position: fixed;
+  position: absolute;
   bottom: 20px;
   right: 20px;
-  width: 350px;
+  width: 300px;
   border: 1px solid #ccc;
   border-radius: 10px;
   background-color: #fff;
@@ -465,7 +465,7 @@ body {
 
 .chat-body {
   padding: 15px;
-  height: 300px;
+  height: 150px;
   overflow-y: auto;
 }
 
